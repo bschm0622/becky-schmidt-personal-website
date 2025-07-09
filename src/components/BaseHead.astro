@@ -1,0 +1,82 @@
+---
+import { ClientRouter } from "astro:transitions";
+
+import { SITE } from "@/siteConfig";
+
+import Favicons from "@/components/Favicons.astro";
+
+import { Font } from "astro:assets";
+
+interface Props {
+    title?: string;
+    description?: string;
+    image?: URL | string;
+    canonicalURL?: URL | string;
+}
+
+const {
+    title = SITE.title,
+    description = SITE.description,
+    //image = new URL("/og.png", Astro.site),
+    //canonicalURL = new URL(Astro.url.pathname, Astro.site),
+} = Astro.props;
+
+// Convert URLs to strings if they're URL objects
+//const imageUrl = image instanceof URL ? image.toString() : image;
+//const canonicalStr =
+//    canonicalURL instanceof URL ? canonicalURL.toString() : canonicalURL;
+
+// Only load analytics in production and on non-admin routes
+const shouldLoadAnalytics =
+    import.meta.env.PROD && !Astro.url.pathname.startsWith("/admin");
+---
+
+<!-- Theme script - Must be first -->
+<script is:inline>
+    console.log('Theme initialization script running');
+    if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+        document.documentElement.classList.add("dark");
+        console.log('Dark mode initialized');
+    } else {
+        document.documentElement.classList.remove("dark");
+        console.log('Light mode initialized');
+    }
+</script>
+
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="HandheldFriendly" content="True" />
+<meta name="format-detection" content="telephone=no" />
+<meta name="referrer" content="no-referrer-when-downgrade" />
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=yes"
+/>
+<meta name="generator" content={Astro.generator} />
+
+{/* Primary Meta Tags */}
+<title>{title}</title>
+<meta name="title" content={title} />
+<meta name="description" content={description} />
+
+{/* Open Graph / Facebook */}
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+
+{/* Twitter */}
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:title" content={title} />
+<meta property="twitter:description" content={description} />
+
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="manifest" href="/site.webmanifest" />
+
+<Font cssVariable="--font-roboto" preload />
+
+<ClientRouter />
+<Favicons />
