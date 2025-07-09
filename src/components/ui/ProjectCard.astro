@@ -1,0 +1,89 @@
+---
+import Card from "@/components/ui/Card.astro";
+
+const {
+    title,
+    description,
+    logoSrc,
+    logoAlt = "Project Logo",
+    techStack = "",
+    projectUrl,
+    className = "",
+} = Astro.props;
+
+const techStackArray = techStack
+    ? techStack
+          .split(",")
+          .map((t: string) => t.trim())
+          .filter(Boolean)
+    : [];
+---
+
+<Card
+    class={`overflow-hidden transition-all hover:shadow-md flex flex-col h-full relative rounded-lg border bg-card text-card-foreground shadow-sm ${className}`}
+>
+    {
+        projectUrl && (
+            <a
+                href={projectUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="absolute top-3 right-3 inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors z-10"
+                aria-label="External link"
+            >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M14 3h7v7m0 0L10 21l-7-7L21 10z"
+                    />
+                </svg>
+            </a>
+        )
+    }
+
+    <!-- CardHeader -->
+    <div class="flex flex-col space-y-1.5 p-6 pb-0">
+        <div class="flex items-center gap-4">
+            {
+                logoSrc && (
+                    <div class="flex-shrink-0 w-16 h-16 rounded-md overflow-hidden bg-muted flex items-center justify-center">
+                        <img
+                            src={logoSrc}
+                            alt={logoAlt}
+                            class="w-full h-full object-contain bg-white"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    </div>
+                )
+            }
+            <div
+                class="text-2xl font-semibold leading-none tracking-tight flex-1"
+            >
+                {title}
+            </div>
+        </div>
+        <p class="text-sm text-muted-foreground mt-1">{description}</p>
+    </div>
+
+    <!-- CardContent -->
+    {
+        techStackArray.length > 0 && (
+            <div class="p-6 pt-2 mt-auto flex flex-wrap gap-2">
+                {techStackArray.map((tech: string) => (
+                    <span class="px-2 py-1 text-xs font-medium rounded-full bg-primary/20 text-foreground border border-border">
+                        {tech}
+                    </span>
+                ))}
+            </div>
+        )
+    }
+</Card>

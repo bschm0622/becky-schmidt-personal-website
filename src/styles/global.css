@@ -3,39 +3,86 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --color-primary: #166534;
-    /* Forest green, softer than original */
-    --color-muted: #e5e5e5;
-    /* Light gray for subtle elements */
-    --color-tertiary: #94a3b8;
-    /* Slate blue-gray, Notion-like */
-    --color-surface: #ffffff;
-    /* Pure white for surfaces */
-    --color-accent: #64748b;
-    /* Grayscale accent with bluish tint */
-    --color-secondary: #dcfce7;
-    /* Very light green for highlights */
-    --color-content: #0f172a;
-    /* Almost black, but softer */
-    --color-background: #f8fafc;
-    /* Off-white background, Notion-like */
+    --font-sans: var(--font-roboto);
+
+    /* Background and Foreground */
+    --color-background: #FFFFFF;
+    --color-foreground: #242423;
+
+    /* Primary Brand Colors */
+    --color-primary: #CFDBD5;
+    --color-primary-foreground: #242423;
+
+    /* Secondary Colors */
+    --color-secondary: #E8EDDF;
+    --color-secondary-foreground: #333533;
+
+    /* Accent Colors */
+    --color-accent: #7D8C85;
+    --color-accent-foreground: #FFFFFF;
+
+    /* Muted Colors */
+    --color-muted: #E8EDDF;
+    --color-muted-foreground: #6C6C6C;
+
+    /* Borders and Separators */
+    --color-border: #D9E2DC;
+    --color-separator: #BFC9C2;
+
+    /* Card and Popover UI */
+    --color-card: #F5F7F2;
+    --color-card-foreground: #333533;
+    --color-popover: #FFFFFF;
+    --color-popover-foreground: #242423;
+
+    /* Input Fields */
+    --color-input: #EAEFEA;
+    --color-input-foreground: #333533;
+
+    /* Ring (focus outline) */
+    --color-ring: #7D8C85;
+
+    /* Destructive Actions */
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #ffffff;
+
+    /* Link Colors */
+    --color-link: #4F625C;
+    --color-link-hover: #2E3D38;
 }
 
 .dark {
-    --color-primary: #4ade80;
-    /* Brighter green for dark mode */
-    --color-muted: #334155;
-    /* Muted slate color */
-    --color-tertiary: #64748b;
-    /* Medium gray with blue tint */
-    --color-surface: #1e293b;
-    /* Dark blue-gray for surfaces */
-    --color-accent: #94a3b8;
-    /* Medium-light gray accent */
-    --color-secondary: #064e3b;
-    /* Dark teal-green */
-    --color-content: #f1f5f9;
-    /* Off-white text */
-    --color-background: #0f172a;
-    /* Very dark blue-gray background */
+    --color-background: #242423;
+    --color-foreground: #F5F7F2;
+
+    --color-primary: #CFDBD5;
+    --color-primary-foreground: #1A1A1A;
+
+    --color-secondary: #333533;
+    --color-secondary-foreground: #F5F7F2;
+
+    --color-accent: #7D8C85;
+    --color-accent-foreground: #FFFFFF;
+
+    --color-muted: #333533;
+    --color-muted-foreground: #ADBAB3;
+
+    --color-border: #4A4A49;
+    --color-separator: #5C5C5B;
+
+    --color-card: #333533;
+    --color-card-foreground: #F5F7F2;
+    --color-popover: #333533;
+    --color-popover-foreground: #F5F7F2;
+
+    --color-input: #3D3D3C;
+    --color-input-foreground: #F5F7F2;
+
+    --color-ring: #7D8C85;
+
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #ffffff;
+
+    --color-link: #ADBAB3;
+    --color-link-hover: #CFDBD5;
 }
