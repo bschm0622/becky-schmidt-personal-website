@@ -17,14 +17,13 @@ interface Props {
 const {
     title = SITE.title,
     description = SITE.description,
-    //image = new URL("/og.png", Astro.site),
-    //canonicalURL = new URL(Astro.url.pathname, Astro.site),
+    image = "/opengraph-image.png",
+    canonicalURL = Astro.url.pathname,
 } = Astro.props;
 
 // Convert URLs to strings if they're URL objects
-//const imageUrl = image instanceof URL ? image.toString() : image;
-//const canonicalStr =
-//    canonicalURL instanceof URL ? canonicalURL.toString() : canonicalURL;
+const imageUrl = image instanceof URL ? image.toString() : image;
+const canonicalStr = canonicalURL instanceof URL ? canonicalURL.toString() : canonicalURL;
 
 // Only load analytics in production and on non-admin routes
 const shouldLoadAnalytics =
@@ -33,17 +32,17 @@ const shouldLoadAnalytics =
 
 <!-- Theme script - Must be first -->
 <script is:inline>
-    console.log('Theme initialization script running');
+    console.log("Theme initialization script running");
     if (
         localStorage.theme === "dark" ||
         (!("theme" in localStorage) &&
             window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
         document.documentElement.classList.add("dark");
-        console.log('Dark mode initialized');
+        console.log("Dark mode initialized");
     } else {
         document.documentElement.classList.remove("dark");
-        console.log('Light mode initialized');
+        console.log("Light mode initialized");
     }
 </script>
 
@@ -65,18 +64,33 @@ const shouldLoadAnalytics =
 
 {/* Open Graph / Facebook */}
 <meta property="og:type" content="website" />
+<meta property="og:url" content={canonicalStr} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
+<meta property="og:image" content={imageUrl} />
 
 {/* Twitter */}
 <meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content={canonicalStr} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
+<meta property="twitter:image" content={imageUrl} />
 
 <link rel="sitemap" href="/sitemap-index.xml" />
 <link rel="manifest" href="/site.webmanifest" />
 
 <Font cssVariable="--font-roboto" preload />
+
+<!-- Umami Analytics (only in production) -->
+{
+    import.meta.env.PROD && (
+        <script
+            defer
+            src="https://cloud.umami.is/script.js"
+            data-website-id="2d238baf-947c-468a-aac9-1ac81b265110"
+        />
+    )
+}
 
 <ClientRouter />
 <Favicons />
