@@ -1,6 +1,4 @@
 ---
-import Card from "@/components/ui/Card.astro";
-
 const {
     title,
     description,
@@ -19,9 +17,7 @@ const techStackArray = techStack
     : [];
 ---
 
-<Card
-    class={`overflow-hidden transition-all hover:shadow-md flex flex-col h-full relative rounded-lg border bg-card text-card-foreground shadow-sm ${className}`}
->
+<div class={`relative flex flex-col h-full rounded-xl border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md ${className}`}>
     {
         projectUrl && (
             <a
@@ -33,17 +29,18 @@ const techStackArray = techStack
             >
                 <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    class="h-4 w-4"
-                    fill="none"
+                    width="16"
+                    height="16"
                     viewBox="0 0 24 24"
+                    fill="none"
                     stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                 >
-                    <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M14 3h7v7m0 0L10 21l-7-7L21 10z"
-                    />
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
                 </svg>
             </a>
         )
@@ -86,4 +83,4 @@ const techStackArray = techStack
             </div>
         )
     }
-</Card>
+</div>

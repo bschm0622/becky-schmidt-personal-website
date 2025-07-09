@@ -13,8 +13,8 @@ export default defineConfig({
   experimental: {
   fonts: [{
     provider: fontProviders.fontsource(),
-      name: "Roboto",
-      cssVariable: "--font-roboto"
+      name: "Poppins",
+      cssVariable: "--font-poppins"
     }]
   }
 });

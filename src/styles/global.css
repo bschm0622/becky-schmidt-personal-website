@@ -3,7 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
-    --font-sans: var(--font-roboto);
+    --font-sans: var(--font-poppins);
 
     /* Background and Foreground */
     --color-background: #FFFFFF;
@@ -85,4 +85,16 @@
 
     --color-link: #ADBAB3;
     --color-link-hover: #CFDBD5;
+}
+
+* {
+    @apply border-border;
+}
+
+*:focus {
+    @apply outline-none;
+}
+
+*:focus-visible {
+    @apply outline outline-ring;
 }

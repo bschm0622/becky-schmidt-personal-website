@@ -1,13 +1,15 @@
 ---
-import Projects from "../components/Projects.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { SITE } from "@/siteConfig";
+import Projects from "@/components/Projects.astro";
+import About from "@/components/About.astro";
+
 ---
 
 <BaseLayout 
     title={SITE.title}
     description={SITE.description}
 >
+    <About />
     <Projects />
-    <h1 class="text-3xl font-bold bg-card text-card-foreground">Hello World</h1>
 </BaseLayout>
