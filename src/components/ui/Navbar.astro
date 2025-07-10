@@ -1,275 +1,55 @@
 ---
-interface NavItem {
-    label: string;
-    href: string;
-}
+import { SITE } from "@/siteConfig.ts";
+import ThemeToggle from "@/components/ThemeToggle.astro";
 
-const navItems: NavItem[] = [
-    { label: "home", href: "#top" },
-    { label: "about", href: "#about" },
-    { label: "projects", href: "#projects" },
-    { label: "resume", href: "#resume" },
-    { label: "blog", href: "#blog" },
-    { label: "connect", href: "#connect" },
-];
+const NAV_LINKS = {
+    home: {
+        label: "home",
+        path: "/",
+    },
+    about: {
+        label: "about",
+        path: "/about",
+    },
+    projects: {
+        label: "projects",
+        path: "/projects",
+    },
+    resume: {
+        label: "resume",
+        path: "/resume",
+    },
+    blog: {
+        label: "blog",
+        path: "/blog",
+    },
+};
 ---
 
-<style>
-    .highlight-pill {
-        /* Dynamic styles set by JS: position, width, height, left, top, transform */
-        transition: all 300ms;
-    }
-
-    /* Hamburger/Close button animations */
-    .hamburger.open div:first-child {
-        top: 15px;
-        transform: rotate(45deg);
-    }
-    .hamburger.open div:nth-child(2) {
-        opacity: 0;
-        transform: translateX(-10px);
-    }
-    .hamburger.open div:last-child {
-        top: 15px;
-        transform: rotate(-45deg);
-    }
-    /* Mobile menu slide-in animation */
-    .mobile-menu {
-        transform: translateY(-100%);
-        transition: transform 500ms ease-in-out;
-    }
-    .mobile-menu.open {
-        transform: translateY(0);
-    }
-</style>
-
-<!-- Desktop Navbar -->
-<div class="fixed top-11 left-1/2 -translate-x-1/2 z-50 hidden md:block">
-    <nav
-        class="relative flex items-center justify-center px-4 py-3 border border-[--border] rounded-full bg-[--background]/60 backdrop-blur-xl"
-    >
-        <div
-            id="highlight-pill"
-            class="absolute bg-[--accent] rounded-full z-0 transition-all duration-300 h-[45px] opacity-0"
-        >
-        </div>
-        <ul
-            class="relative flex flex-row flex-nowrap gap-6 text-[24px] text-[--foreground]"
-        >
-            {
-                navItems.map((item) => (
-                    <li>
-                        <a
-                            href={item.href}
-                            class="px-[14px] py-[6px] rounded-full relative z-10 transition-colors duration-300 hover:text-[--muted-foreground] whitespace-nowrap"
-                            data-id={item.href}
-                        >
-                            {item.label}
-                        </a>
-                    </li>
-                ))
-            }
-        </ul>
-    </nav>
-</div>
-
-<!-- Mobile Navbar -->
-<div class="fixed top-0 left-0 right-0 z-50 md:hidden">
-    <!-- Mobile Header -->
-    <div class="flex items-center justify-end px-6 py-8 relative z-50">
-        <button
-            id="hamburger"
-            class="hamburger relative w-8 h-8 focus:outline-none"
-            aria-label="Menu"
-        >
-            <div
-                class="absolute bg-[--foreground] h-0.5 w-6 left-1 top-2 transition-all duration-300 ease-in-out"
-            >
-            </div>
-            <div
-                class="absolute bg-[--foreground] h-0.5 w-6 left-1 top-4 transition-all duration-300 ease-in-out"
-            >
-            </div>
-            <div
-                class="absolute bg-[--foreground] h-0.5 w-6 left-1 top-6 transition-all duration-300 ease-in-out"
-            >
-            </div>
-        </button>
-    </div>
-
-    <!-- Mobile Menu Overlay -->
+<header
+    class="fixed top-0 z-50 w-full border-b border-border bg-background/60 backdrop-blur-xl"
+>
     <div
-        id="mobile-menu"
-        class="mobile-menu fixed inset-0 bg-[--background]/95 backdrop-blur-lg z-40 flex-col items-center justify-center min-h-screen gap-8 px-6 -mt-16 md:hidden"
+        class="mx-auto flex max-w-screen-md items-center justify-between px-4 py-3 sm:px-6"
     >
-        <div
-            class="flex flex-col items-center justify-center min-h-screen gap-8 px-6 -mt-16"
-        >
-            {
-                navItems.map((item) => (
-                    <a
-                        href={item.href}
-                        class="text-[32px] text-[--foreground] hover:text-[--muted-foreground] transition-colors duration-300"
-                        data-id={item.href}
-                    >
-                        {item.label}
-                    </a>
-                ))
-            }
-        </div>
-    </div>
-</div>
-
-<script type="module">
-    const highlight = document.getElementById("highlight-pill");
-    const links = Array.from(document.querySelectorAll("nav a"));
-    const OFFSET = 100;
-
-    // Mobile menu elements
-    const hamburger = document.getElementById("hamburger");
-    const mobileMenu = document.getElementById("mobile-menu");
-    const mobileLinks = Array.from(document.querySelectorAll("#mobile-menu a"));
-
-    function updateHighlight(activeLink) {
-        if (!activeLink) return;
-
-        const rect = activeLink.getBoundingClientRect();
-        const navRect = activeLink.closest("nav").getBoundingClientRect();
-
-        // Calculate position
-        const width = rect.width;
-        const height = rect.height;
-        const left = rect.left - navRect.left;
-
-        // Apply styles
-        highlight.style.width = `${width}px`;
-        highlight.style.height = `${height}px`;
-        highlight.style.left = `${left}px`;
-        highlight.style.opacity = "1";
-    }
-
-    function onScroll() {
-        // Get viewport height and scroll position
-        const viewportHeight = window.innerHeight;
-        const scrollPosition = window.scrollY;
-
-        // Find all sections that exist
-        const sections = links
-            .map((link) => {
-                const href = link.getAttribute("href");
-                const section = document.querySelector(href);
-                if (!section) return null;
-
-                const rect = section.getBoundingClientRect();
-                return {
-                    link,
-                    section,
-                    top: rect.top,
-                    bottom: rect.bottom,
-                    href,
-                };
-            })
-            .filter(Boolean);
-
-        // If no sections found, don't proceed
-        if (sections.length === 0) return;
-
-        // Find the active section
-        let activeSection = sections[0];
-        const middleOfViewport = viewportHeight / 2;
-
-        for (const section of sections) {
-            const { top, bottom } = section;
-
-            // If this section is in the middle of the viewport or we've scrolled past its top
-            if (top <= OFFSET) {
-                activeSection = section;
-            }
-        }
-
-        // Update active state
-        links.forEach((link) => {
-            link.classList.remove("text-[--accent-foreground]");
-            link.setAttribute("aria-current", "false");
-        });
-
-        // Also update mobile links
-        mobileLinks.forEach((link) => {
-            link.classList.remove(
-                "text-[--accent-foreground]",
-                "font-bold",
-                "underline",
-                "text-[--foreground]",
-                "bg-[--accent]",
-                "rounded-full",
-                "px-4",
-                "py-2"
-            );
-            link.setAttribute("aria-current", "false");
-            // Find and update the corresponding mobile link
-            if (link.getAttribute("href") === activeSection.href) {
-                link.classList.add(
-                    "bg-[--accent]",
-                    "text-[--accent-foreground]",
-                    "rounded-full",
-                    "px-[14px]",
-                    "py-[6px]"
-                );
-                link.setAttribute("aria-current", "true");
-            }
-        });
-
-        activeSection.link.classList.add("text-[--accent-foreground]");
-        activeSection.link.setAttribute("aria-current", "true");
-        updateHighlight(activeSection.link);
-    }
-
-    // Mobile menu toggle
-    function toggleMobileMenu() {
-        const isOpen = hamburger.classList.toggle("open");
-        mobileMenu.classList.toggle("open");
-        document.body.style.overflow = isOpen ? "hidden" : "";
-    }
-
-    // Handle clicks on nav links
-    [...links, ...mobileLinks].forEach((link) => {
-        link.addEventListener("click", (e) => {
-            e.preventDefault();
-            const href = link.getAttribute("href");
-            const section = document.querySelector(href);
-            if (section) {
-                // Close mobile menu if open
-                if (mobileMenu.classList.contains("open")) {
-                    toggleMobileMenu();
+        <!-- Logo + Title -->
+        <a href="/" class="flex items-center space-x-3 group">
+            <span
+                class="text-lg font-semibold text-foreground sm:text-xl"
+            >
+                {SITE.title}
+            </span>
+        </a>
+        <nav>
+            <ul class="flex items-center gap-5 p-0">
+                {
+                    Object.values(NAV_LINKS).map((item: any) => (
+                        <li>
+                            <a href={item.path} class="prose">{item.label}</a>
+                        </li>
+                    ))
                 }
-                // Smooth scroll to section
-                section.scrollIntoView({ behavior: "smooth" });
-            }
-        });
-    });
-
-    // Mobile menu event listeners
-    hamburger.addEventListener("click", toggleMobileMenu);
-
-    // Set up scroll listener with throttling
-    let ticking = false;
-    window.addEventListener(
-        "scroll",
-        () => {
-            if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    onScroll();
-                    ticking = false;
-                });
-                ticking = true;
-            }
-        },
-        { passive: true },
-    );
-
-    // Initialize on page load
-    window.addEventListener("load", onScroll);
-
-    // Also initialize on DOMContentLoaded in case all content is already loaded
-    window.addEventListener("DOMContentLoaded", onScroll);
-</script>
+            </ul>
+        </nav>
+    </div>
+</header>

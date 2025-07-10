@@ -7,10 +7,10 @@ export interface SiteConfiguration {
 }
 
 export const SITE: SiteConfiguration = {
-    title: "Astro Boilerplate",
+    title: "Becky's Personal Website",
     description:
-        "Built with Astro, Tailwind CSS, and Markdown.",
-    href: "https://astro-boilerplate.beckyschmidt.me",
+        "Product Manager, Developer, and Writer",
+    href: "https://beckyschmidt.me",
     author: "Becky Schmidt",
     locale: "en-US",
 };
